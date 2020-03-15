@@ -48,7 +48,11 @@ $(function(){
         // 
         var e = setInterval(function() {
             $code.html("已发送（" + t-- + "s）");
+            if(t > 0){
+                $code.attr("disabled","disabled");
+            }
             if(t == 0){
+                $code.removeAttr("disabled");
                 clearInterval(e);
                 t = 5;
                 $code.html("获取验证码");
