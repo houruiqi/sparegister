@@ -44,20 +44,23 @@ $(function(){
     })
     var t = 5;
     $code.click(function(){
-        console.log('adsd');
-        // 
-        var e = setInterval(function() {
-            $code.html("已发送（" + t-- + "s）");
-            if(t > 0){
-                $code.attr("disabled","disabled");
-            }
-            if(t == 0){
-                $code.removeAttr("disabled");
-                clearInterval(e);
-                t = 5;
-                $code.html("获取验证码");
-            }
-        }, 1000);
+        if(validate('#phone') && $phonemsg.html()==''){
+            var e = setInterval(function() {
+                $code.html("已发送（" + t-- + "s）");
+                if(t > 0){
+                    $code.attr("disabled","disabled");
+                }
+                if(t == 0){
+                    $code.removeAttr("disabled");
+                    clearInterval(e);
+                    t = 5;
+                    $code.html("获取验证码");
+                }
+            }, 1000);
+        }
+        else{
+            $codemsg.html("请正确填写手机号");
+        }
         
     })
     function validate(field) {
@@ -76,16 +79,14 @@ $(function(){
                 $msg.html("密码不能为空");
             }
             else if(field == '#vcinput'){
-                $msg.html("验证码不能为空");
+                $msg.html("请求超时，请稍后再试");
             }
             
             return false;
         }
         // validate number
         if($data.val()!=''){
-            // var flag = 0;
             var str = $data.val();
-            // console.log(str);
             if(field == '#name'){
                 isNaN(str)?(judgeteshu(str)): $msg.html("用户名仅支持中英文、数字和下划线,且不能为纯数字");
                 function judgeteshu(str){
